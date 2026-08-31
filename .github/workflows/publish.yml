@@ -1,0 +1,37 @@
+name: Publish to npm
+
+# Déclenché par un tag de version (ex: v0.2.0) ou manuellement. Requis pour la
+# soumission au programme Verified Community Nodes de n8n : depuis le 1er mai 2026,
+# les nodes soumis via le Creator Portal doivent être publiés via GitHub Actions avec
+# une attestation de provenance (voir permissions id-token ci-dessous et --provenance
+# dans l'étape de publication).
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write # requis par npm pour signer l'attestation de provenance
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
+
+      - run: npm ci
+
+      - run: npm run lint
+
+      - run: npm run build
+
+      - run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

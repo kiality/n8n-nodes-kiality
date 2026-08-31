@@ -1,0 +1,52 @@
+{
+  "name": "n8n-nodes-kiality",
+  "version": "0.1.0",
+  "description": "Nodes n8n pour Kiality : créer, mettre à jour et déclencher des workflows sur les anomalies de conformité détectées par Kiality.",
+  "keywords": [
+    "n8n-community-node-package"
+  ],
+  "license": "MIT",
+  "homepage": "https://kiality.ai",
+  "author": {
+    "name": "Kiality"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kiality/n8n-nodes-kiality"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "files": [
+    "dist"
+  ],
+  "n8n": {
+    "n8nNodesApiVersion": 1,
+    "credentials": [
+      "dist/credentials/KialityApi.credentials.js"
+    ],
+    "nodes": [
+      "dist/nodes/Kiality/Kiality.node.js",
+      "dist/nodes/KialityTrigger/KialityTrigger.node.js"
+    ]
+  },
+  "scripts": {
+    "build": "tsc && npm run copy:icons",
+    "copy:icons": "node scripts/copy-icons.js",
+    "dev": "tsc --watch",
+    "lint": "eslint nodes credentials package.json --ext .ts,.js",
+    "lintfix": "eslint nodes credentials package.json --ext .ts,.js --fix"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-n8n-nodes-base": "^1.16.1",
+    "n8n-workflow": "^1.60.0",
+    "typescript": "^5.4.0"
+  },
+  "peerDependencies": {
+    "n8n-workflow": "*"
+  }
+}
